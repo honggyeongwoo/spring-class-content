@@ -1,0 +1,14 @@
+package com.yonsai.Day57_20260812_2.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController // 웹 서버 기능 생성할게
+public class EdiyaController {
+	
+	@GetMapping("/")
+	public String main() {
+		return String("이디야 메인 페이지입니다.");
+	}
+	
+
+}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>hhh Blog Page</h2>
+	
+	<header>
+<ul>
+<li>
+<a href="/blog">블로그</a>
+</li>
+<li>카페</li>
+<li>메일</li>
+</ul>
+</header>
+</body>
+</html>

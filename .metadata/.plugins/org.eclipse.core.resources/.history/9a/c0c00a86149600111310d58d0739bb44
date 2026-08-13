@@ -1,0 +1,13 @@
+package com.yonsai.Day57_20260812_2.controller;
+
+import org.springframework.stereotype.Controller;
+
+@Controller // 서버에서 응답할때 html 파일을 주고 싶을때
+public class NaverController {
+
+	@GetMapping("/")
+	public String main () {
+		return "index.html";
+	}
+	
+}

@@ -1,0 +1,45 @@
+package com.yonsai.Day57_20260812_2.controller;
+
+import java.time.LocalDateTime;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+// 아래 RestController 가 없다면 그냥 일반 자바 파일임
+
+@RestController // 나는 서버를 만들겠다. 
+public class HomeController {
+	
+	// 어떤 url을 처리하려고?
+	// 리액트로 하나의 화면을 만들면 -> 하나의 url이 생성되고
+	// 하나의 처리하는 자바코드랑 연결하면 됨. (Spring)
+	@GetMapping("/hi") // /hi라는 url이 들어오면 실행
+	public String hi() {
+		
+		// return? 유저에게 보낼 데이터를 적는, 연결된 프론트엔드 코드로 보내진다.
+		return "안녕하세요 hi랑 연결된 서버 입니다.";
+	}
+
+@GetMapping("/") // 메인페이지 접속 했을 때	
+public String main() {
+	
+	return "main 페이지 입니다.";
+}
+	
+@GetMapping("/mypage")
+public String mypage() {
+	
+	return "마이페이지 입니다.";
+}
+
+@GetMapping("/date")
+public String date() {
+	
+    return LocalDateTime
+    		.now()
+    		.toString();
+}
+
+
+
+}

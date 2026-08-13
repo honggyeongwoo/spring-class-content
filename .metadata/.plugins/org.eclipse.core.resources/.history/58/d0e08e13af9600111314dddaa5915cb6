@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+	<h1>spring으로 만든 첫 페이지</h1>
+	<p> woo </p>
+	
+	<!-- id는 유니크, 하나만 존재한다 -->
+	<div id="wrap">
+		<header>
+			<i class="bi bi-apple"></i>
+		</header>
+	
+	</div>
+	
+<script src="/js/index.js"></script>	
+</body>
+</html>

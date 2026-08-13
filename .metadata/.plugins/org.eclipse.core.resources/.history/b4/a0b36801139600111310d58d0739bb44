@@ -1,0 +1,25 @@
+package com.yonsai.Day57_20260812_2.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController // 웹 서버 기능 생성할게
+public class EdiyaController {
+	
+	@GetMapping("/")
+	public String main() {
+		return "이디야 메인 페이지입니다.";
+		
+		
+	}
+	
+	//메뉴 페이지에서 음료페이지 보여줘!
+	// 하나의 화면과 하나의 url 과 하나의 자바코드 연결된다.
+	@GetMapping("/drink")
+	public String drink() {
+	return "drink 페이지입니다.";
+	}
+
+	
+
+}

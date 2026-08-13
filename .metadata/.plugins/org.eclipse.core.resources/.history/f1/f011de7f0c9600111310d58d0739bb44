@@ -1,0 +1,10 @@
+package com.yonsai.Day57_20260812_2.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+// 아래 RestController 가 없다면 그냥 일반 자바 파일임
+
+@RestController // 나는 서버를 만들겠다.
+public class HomeController {
+
+}
