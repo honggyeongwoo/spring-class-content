@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spring Bridge</title>
+  </head>
+  <body>
+    <h2>브라우저에서 보냅니다</h2>
+    <h3>전송할 때 사용하는 도구 2가지</h3>
+
+    <h3>전송</h3>
+    <hr />
+
+    <!-- axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <h3>Axiso 전송</h3>
+
+    <script>
+      axios
+        .get("http://localhost:8080/hello2")
+        .then((resepone) => console.log(resepone.data));
+    </script>
+
+    <!-- fetch -->
+    <script>
+      // 1. 서버로 통신해야 하니까 fetch 사용할게 - fetch(url) - get 방식 전송
+      // 서버한테 /hello 하면 "안녕하세요" 응답 받기
+      fetch("http://localhost:8080/hello")
+        // 2. 응답 받자
+        .then((respone) => respone.text())
+        .then((data) => console.log(data));
+
+      // Axios를 사용한 GET 예시
+      axios.get("http://localhost:8080/hello").then((response) => {
+        console.log("axios:", response.data);
+      });
+    </script>
+  </body>
+</html>
