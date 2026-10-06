@@ -1,0 +1,357 @@
+PRD
+ - 프로젝트명:
+ - 해결하려는 문제: 숙소비교가 어렵다!
+	가격도 달라,관광지도 어디있느지 모르겟어 
+	취소,환불 조건이 복잡해 
+	AI가 사람들의 선택 조건에 따라서 추천시스템!(공공데이터
+	,여행지에 대한  RAG)
+ - 사용할 사람: 20~50대 여행을 가는 사람들!
+ - 핵심 기능 3개
+  1.비교!
+  2.추천!
+  3.
+
+ - 필요한 화면: 아래작성
+ - 이번에 구현할 범위:
+ - 구현 하지 않을 기능:
+ - 완료 기준:
+
+#-------------------------------------------------
+문제
+ - 여행자가 여러 숙소의 가격과 편의 시설을 비교하려면 
+   상세페이지를 반복해서 이동해야한다.
+
+해결
+ - 선택한 숙소3개의 가격,평점,주차,조식정보,환불,취소여부 한
+   화면에서 비교한다.
+
+완료기준
+ - 숙소를 선택하고 '비교하기'를 누르면 비교표가 표시된다.
+
+AI - 채팅창 
+ 부산에서 부모님이랑 묵을 호텔 찾아줘 1박 15만원 이하이고
+주차장은 꼭 있어야해!
+#----------------------------------------------
+필요한 화면
+메인페이지 
+ - 필수
+ - 역할: 검색, 카테고리,인기숙소,인기 여행 지역
+
+상세페이지
+ - 필수
+ - 사진,편의시설,객실,위치정보(주소를 크게보이게하자),리뷰
+   취소와 환불
+
+비교표
+ - 필수(핵심)
+ - 선택한 숙소3개를 한 화면에서 비교(핵심)
+   가격,평점,주차,조식정보,환불,취소여부
+ 
+Ai채팅
+ - 필수
+ - 채팅을 입력하면 숙소 추천 
+
+숙소목록 
+ - 필수 
+ - 채팅창이랑 같이 보여줄지? 따로 팝업형으로 보여줄지 결정
+ - 검색/필터결과,비교담기
+
+지도
+ - 만약 비교표에 관광지가 있다면 표시(필수)
+                     없다면 안 표시(선택)
+
+
+# 선택은 시간이 남았어 그러면 구현할 수있는 기능들 #
+# JWT나 세션 구현! 일정부담!확!
+로그인/회원가입 
+ - 선택 
+
+찜목록 (마이페이지)
+ - 선택!
+ - 하트를 누른 숙소 모아보기
+
+#---------------------------------------------------------------
+Entity 정리 ( 저장할 데이터) 
+메인 페이지
+ - 숙소 카드형(이미지,이름,지역,평점,가격,할인)
+
+상세페이지
+ - 사진 여러장,설명,편의시설,리뷰
+
+비교표
+ - 가격,평점,주차,조식,환불/취소
+
+Ai채팅 
+ -  조건 추출후 숙소 조회
+
+호텔Entity
+ id        Long      PK,
+ name      String    숙소명,
+ type      String    호텔/펜션/풀빌라/리조트/게하
+ city      String    서울,주제,부산 등..
+ address   String    상세주소, (district 지역,구역,행정구 해운대구,애월,성수)
+ desctiption Text    숙소설명 
+ imageUrl  String    대표 이미지
+ originPrice int     1박 정가
+ discountRate int    할인율 (없으면 0)
+ rating    double    평점
+ reviewCount  int    리뷰수
+ packing   boolean   주차가능
+ breakfast boolean   조식제공
+ cancelPolicy String  취소/환불조건 설명
+#---------------------------------------------------
+객실 사진 대표로 하나만 선택! 저장 시간이 남으면 그 후에 구현
+
+숙소사진Entity
+ 객실사진
+  - 실제 객실 사진 (특정객실 하나)
+ 숙소사진 
+  - 외관,로비,수영장,조식당,등등.. 숙소 전체
+ 
+
+# 추후
+ 지도용좌표
+ 회원가입 
+#---------------------------------------------------------------
+이번에 구현할 범위
+
+핵심기능 
+ 1.숙소비교
+ 2.AI채팅 추천
+ 3.지도(숙소 + 관광지)
+
+전국기준으로 더미데이터(20~30),지역/유형/가격/주차/조식필터 , 비교표  3개
+AI 추천
+
+구현하지 않을 범위
+ 결제/예약, 회원가입/로그인/찜,객실 종류별선택, 실시간 가격 크롤링,리뷰작성
+ 등
+#-------------------------------------------------------------
+완료 기준
+ 숙소3개를 선택하고 비교하기를 누르면 가격 , 평점, 주차, 조식, 환불표가 
+ 하나의 표시된다.
+ 채팅에 '부산','15만원이하', '주차필수' 입력조건 무한대,조건 제한 
+ 맞는 숙소 3개 추천한다.
+
+#-----------------------------------------------------------===
+PRD - 무엇을 만들까?
+API 명세 (프론트엔드랑 벡엔드가 주고 받을 약속) 
+- 화면마다 어떤 데이터를 달라고 요청하나? 정하기
+
+메인페이지
+ - 인기숙소4개      :  GET /api/popular
+ - 숙소목록 (검색)  :  GET  /api/accommodations?						 		 city=*&
+			 type=*&
+			 maxPrice=*&
+			 parking=*&
+			 breakfast=*
+
+#-----------------------------------------------------------------
+GET /api/accommodations/compare?ids=1,5,8
+
+설명: 선택한 숙소 2~3개의 비교 항목을 반환한다.
+
+요청
+- ids (쿼리, 필수): 숙소 id, 쉼표 구분, 최대 3개
+
+응답 200
+[
+  {
+    "id": 1,
+    "name": "제주 온유 풀빌라",
+    "price": 189000,
+    "rating": 4.9,
+    "parking": true,
+    "breakfast": false,
+    "refundable": true,
+    "cancelPolicy": "체크인 3일 전까지 무료 취소"
+  }
+]
+
+에러
+- 400: ids가 없거나 3개 초과
+- 404: 존재하지 않는 id
+
+요청/응답/에러 자세히 작성!
+
+#-----------------------------------------------------------------
+더미데이터 
+
+
+
+
+#------------------------------------------------------------------
+내가 어떤 걸로 페이지를 만들지?
+ frontend = 리액트
+ backend = 스프링부트(자바),mysql,ai
+
+
+#------------------------------------------------
+챗
+ [공통 규칙]
+  - React(Vite) 숙소 사이트 "쉬어가". 수정 가능한 파일은
+    App.jsx,App.css 두개 뿐!
+    main.jsx, index.css 등 절대 건드리지마!
+  - 시멘틱 태그를 쓰고 , img는 alt 필수
+  - 클래스명은 기존처럼 카멜케이스,스타일 App.css만 쓰고 
+    인라인(style)금지. 색은 :root (css 변수)참고 하기 
+  - 코드는 간결하게 "이번에 쓴 태그/함수가 왜 쓰였는지 표로
+    5줄로 이내로 설명해
+
+  현재 프로젝트가 끝날때까지 이 내용을 무조건 참고해!
+
+  
+  디자인만 해줘! 다른기능이나 구조는 건드리지말고!
+
+
+App.jsx와 App.css를 코드 리뷰해줘. 코드는 절대 수정하지 말고 지적만 해줘.
+검토 기준:
+1. 시맨틱 태그가 알맞은가 (div 남용, img alt 누락, button type 누락)
+2. map에 key가 있는가
+3. 하드코딩된 반복 코드가 있는가 (상수 배열 + map으로 바꿀 수 있는 곳)
+4. 중복되는 계산이나 CSS
+5. 안 쓰는 import, 변수, CSS 클래스
+6. 접근성 문제 (aria 속성, label 연결)
+각 지적을 [심각 / 권장 / 취향]으로 분류하고, 위치(코드 일부)와 이유를 함께 알려줘.
+
+----------------------------------------------------리팩토링 
+ - 코드를 쉽게 , 중복없이 코드를 수정하는 방법!
+ - 한번에 한가지씩 확인!
+
+[리팩토링]
+수정 파일은 App.jsx, App.css만. 화면 동작과 모양은 절대 바뀌면 안 돼.
+이번에는 "아래 한 가지"만 정리해줘. 다른 건 건드리지 마.
+
+대상: (예) 카테고리 탭의 하드코딩된 버튼 5개를 CATEGORIES 상수 배열 + map으로 바꿔줘.
+
+끝에 "바뀐 부분 / 바뀌지 않은 부분"을 구분해서 요약해줘.
+
+#-------------------------------------------------
+벡엔드 
+1. yaml 파일 설정
+ 데이터베이스명: HotelProject
+ username: root
+ password: 1234
+
+ jpa 
+  - hibernate.ddl-auto: update
+  - show-sql: true
+  - properties.hibernate.format_sql: true
+
+  다른 파일은 건드리지말고! 설정만해!
+   
+2. 폴더 구조 생성 
+ [패키지구조]
+ 메인 클래스(@SpringBootApplication)가 있는 패키지를 먼저 찾아서 알려주고, 그 패키지 바로 아래에 하위 패키지 7개를 만들어줘.
+메인 클래스 위치는 절대 옮기지 마.
+
+만들 패키지 (이름은 소문자 그대로):
+- controller   : 요청을 받고 응답하는 곳
+- service      : 비즈니스 로직 
+- repository   : DB 조회 (JPA)
+- entity       : DB 테이블과 연결되는 클래스
+- dto          : 프론트와 주고받는 요청/응답용 클래스
+- config       : 설정 클래스 (CORS, Swagger)
+- exception    : 공통 에러 처리 (GlobalExceptionHandler)
+ 폴더만 만들고 다른거는 절대 건드리지마! 기능만들지마!
+ 
+3. 개발 순서에 의해서  entity부터 생성
+ [accommodation entity]
+  accommodation.java 하나만 만들어줘.
+  다른 엔티티는 만들지마! 현재 데이터베이스는 mysql
+ - id: Long, @Id, @GeneratedValue(strategy = GenerationType.IDENTITY)
+- 필드는 아래 그대로 (이름과 타입 변경 금지, 오타 주의):
+
+ String  name           // 숙소명
+  String  type           // 호텔/펜션/풀빌라/리조트/게스트하우스
+  String  city           // 서울/부산/제주/강릉
+  String  district       // 동네 (해운대, 애월...)
+  String  address        // 상세 주소
+  String  description    // 숙소 설명, 긴 글이라 @Column(columnDefinition = "TEXT")
+  String  imageUrl       // 대표 이미지 (사진은 이 한 장만 사용)
+  int     originalPrice  // 1박 정가
+  int     discountRate   // 할인율(%), 없으면 0
+  double  rating         // 평점
+  int     reviewCount    // 리뷰 수
+  boolean parking        // 주차 가능
+  boolean breakfast      // 조식 제공
+  boolean refundable     // 무료 취소 가능
+  String  cancelPolicy   // 취소/환불 조건 설명
+
+  엔티티만 생성해줘! 다른건 건드리지마!
+
+4. 더미데이터를 insert into 하기!
+  호텔데이터베이스.txt 파일 안에 있는 내용 mysql에 추가하기!
+
+5. repository 만들기
+  - DB 데이터를 조회/저장하는 담당자(직원배치)
+  - 메뉴얼을 습득! JPA repository 상속하기
+  - 기본적으로 findAll(),findById() 등등 
+    메뉴얼에 가지고있음 다로 만들필요가 없다!
+
+[이번 조각: AccommodationRepository]
+repository 패키지에 AccommodationRepository.java 하나만 만들어줘.
+
+규칙:
+- 클래스가 아니라 interface로 만들고, JpaRepository<Accommodation, Long>을 상속해.
+- 메서드는 아래 1개만 추가해 (쿼리 메서드 이름 규칙 사용, @Query 금지):
+  리뷰 수가 많은 순으로 상위 4개를 조회하는 메서드. 이름은 findTop4ByOrderByReviewCountDesc.
+  (메인 화면 "이번 주 인기 숙소"용)
+- 목록 필터, 비교용 메서드는 아직 만들지 마. (필터는 5단계, 비교는 JpaRepository의 findAllById를 쓸 예정)
+- @Repository 어노테이션은 붙이지 마. (JpaRepository를 상속하면 자동 등록됨)
+
+6. DTO 생성하기 
+  - 원하는 것만 뽑아가기!
+ [AccommodationSummaryDto 간단 버전]
+dto 패키지의 AccommodationSummaryDto.java 하나만 수정해줘. 다른 파일은 건드리지 마.
+record 구성요소(필드)는 지금 그대로 둬. 이름, 타입, 순서, 주석 변경 금지.
+
+ 숙소번호,숙소명,도시,동네,대표 이미지,1박 정가
+ ,할인율,할인가 , 평점,리뷰수
+
+- 메서드 본문 없이 필드만 있는 record가 되게 해.
+끝에 "바뀐 부분 / 바뀌지 않은 부분"을 구분해서 요약해줘.
+
+7. 서비스 생성하기 
+[공통 규칙]
+- Spring Boot(Gradle, Java 17) 숙소 사이트 "쉬어가"의 백엔드. DB는 MySQL(shuieoga).
+- 이번에 시킨 파일만 만들고 수정해. 시키지 않은 파일(build.gradle, application.yml, 메인 클래스, Entity, Repository, DTO, 다른 패키지)은 절대 건드리지 마.
+- 기존 코드를 지우거나 바꾸지 마.
+- 코드는 간결하게. 메서드에 한 줄 주석만 달아.
+- 끝에 "쓴 어노테이션이 왜 쓰였는지"를 표로 5줄 이내로 설명해줘.
+
+
+[이번 조각: AccommodationService]
+service 패키지에 AccommodationService.java 하나만 만들어줘. #sym:AccommodationSummaryDto  사용해서 전달해줘 컨트롤러에게
+
+규칙:
+- 클래스에 @Service 달고
+- AccommodationRepository를 private final 필드로 선언해서 생성자 주입으로 받아. (@Autowired 금지)
+- 메서드는 아래 1개만 만들어:
+  public List<Accommodation> getPopular()
+  → repository.findTop4ByOrderByReviewCountDesc()를 그대로 반환. (인기 숙소 4개)
+- 목록 필터, 상세, 비교 메서드는 아직 만들지 마.
+
+8. 컨트롤러 생성
+ [공통규칙] 위에꺼 사용하기 
+[이번 조각: AccommodationController]
+controller 패키지에 AccommodationController.java 하나만 만들어줘. DTO는 쓰지 마.
+
+규칙:
+- 클래스에 @RestController("/"),
+  @CrossOrigin(origins = "*")를 붙여.
+- AccommodationService를 private final 필드로 선언해 생성자 주입으로 받아. (@Autowired 금지)
+- 메서드는 아래 1개만 만들어:
+  public List<Accommodation> popular()
+  → accommodationService.getPopular()를 그대로 반환.
+- 목록, 상세, 비교 메서드는 아직 만들지 마.
+- 이미 있는 HealthController는 건드리지 마.
+
+
+
+
+
+
+
+
+
